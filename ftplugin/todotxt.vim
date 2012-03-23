@@ -111,16 +111,36 @@ function! s:TodoDone(...)
     let doneDate = strftime(format, localtime() - when)
     execute "normal I" . "x " . doneDate
 endfunction                                   
-
 command! -nargs=? TodoDone :call <SID>TodoDone(<f-args>)
+
+function! s:TodoNotDone()
+    let line = getline(".")
+    let pattern = '^\(\s*x\s*\(\d\{4}-\d\{2}-\d\{2} \d\{2}:\d\{2} \?\)\?\)'
+    let numCharacters = strlen(matchstr(line, pattern))
+    echo numCharacters
+    execute "normal 0" . numCharacters ."x"
+endfunction                                   
+command! -nargs=0 TodoNotDone :call <SID>TodoNotDone()
+
+function! s:ToggleTodoDone()
+    let line = getline(".")
+    let pattern = '^\s*x'
+    let position = match(line, pattern)
+    if position < 0
+        TodoDone()
+    else
+        call <SID>TodoNotDone()
+    endif
+endfunction
+command! -nargs=0 ToggleTodoDone :call <SID>ToggleTodoDone()
 
 " Add a tag
 map  [t   $:CopyTag<CR>
 vmap [t   $:CopyTag<CR>
 
-" Mark a task as done
-map  [d   :TodoDone<CR>
-vmap [d   :TodoDone<CR>
+" Toggle task completion
+map  [d   :ToggleTodoDone<CR>
+vmap [d   :ToggleTodoDone<CR>
 
 map  [j   $:CopyTag<CR>:CopyDate<CR>:TodoDone<CR>
 vmap [j   $:CopyTag<CR>:CopyDate<CR>::TodoDone<CR>
