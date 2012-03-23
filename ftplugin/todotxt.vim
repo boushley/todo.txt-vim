@@ -135,28 +135,28 @@ endfunction
 command! -nargs=0 ToggleTodoDone :call <SID>ToggleTodoDone()
 
 " Add a tag
-map  [t   $:CopyTag<CR>
-vmap [t   $:CopyTag<CR>
+map  <leader>t   $:CopyTag<CR>
+vmap <leader>t   $:CopyTag<CR>
 
 " Toggle task completion
-map  [d   :ToggleTodoDone<CR>
-vmap [d   :ToggleTodoDone<CR>
+map  <leader>d   :ToggleTodoDone<CR>
+vmap <leader>d   :ToggleTodoDone<CR>
 
-map  [j   $:CopyTag<CR>:CopyDate<CR>:TodoDone<CR>
-vmap [j   $:CopyTag<CR>:CopyDate<CR>::TodoDone<CR>
+map  <leader>j   $:CopyTag<CR>:CopyDate<CR>:TodoDone<CR>
+vmap <leader>j   $:CopyTag<CR>:CopyDate<CR>::TodoDone<CR>
 
 " Clear away indented done lines
-map  [c   :set lazyredraw<CR>kmrj/^\s\+x <CR>ddGp:s/^\s\+//<CR>'r:nohlsearch<CR>
+map  <leader>c   :set lazyredraw<CR>kmrj/^\s\+x <CR>ddGp:s/^\s\+//<CR>'r:nohlsearch<CR>
 
 " Other macros
-map  [w   :DueDate 7<CR>
-vmap [w   :DueDate 7<CR>
-map  [m   :DueDate 30<CR>
-vmap [m   :DueDate 30<CR>
-map  [s   :%IndentSort<CR>
-vmap [s   :%IndentSort<CR>
-map  [r   zRmr:%RecursiveIndentSort<CR>'r
-vmap [r   zRmr:%RecursiveIndentSort<CR>'r
+map  <leader>w   :DueDate 7<CR>
+vmap <leader>w   :DueDate 7<CR>
+map  <leader>m   :DueDate 30<CR>
+vmap <leader>m   :DueDate 30<CR>
+map  <leader>s   :%IndentSort<CR>
+vmap <leader>s   :%IndentSort<CR>
+map  <leader>r   zRmr:%RecursiveIndentSort<CR>'r
+vmap <leader>r   zRmr:%RecursiveIndentSort<CR>'r
 
 " abbreviations
 " can put these in .vimrc if useful for other file types
