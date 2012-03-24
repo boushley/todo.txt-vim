@@ -40,6 +40,12 @@ endfunction
 
 command! -nargs=0 -bar CopyDate :call <SID>CopyDate()
 
+function! s:IsComplete(task)
+    let pattern = '^\s*x'
+    let position = match(a:task, pattern)
+    return position == 0
+endfunction
+
 " DueDate: Searches for tags in todo.txt files
 " Author: Graham Davies <graham@grahamdavies.net>
 "
@@ -100,6 +106,31 @@ endfunction
 
 command! -nargs=0 MarkDue :call <SID>MarkDue()
 
+function! s:ArchiveTask()
+    " Find the current line
+    let line = getline('.')
+
+    " If the current line is not compelte, we're done
+    if <SID>IsComplete(line)
+        " Find the name of the current file
+        let currentFile = expand('%:p')
+        " Generate the name for the archive file
+        let archiveFile = substitute(currentFile, 'todo.txt$', 'archive.todo.txt', 'i')
+        " Remove the current line
+        execute "normal dd"
+        " Put it in the archive file
+        call <SID>AppendToFile(archiveFile, line)
+    endif
+endfunction
+command! -nargs=0 ArchiveTask :call <SID>ArchiveTask()
+
+" lines must be a list without trailing newlines.
+function! s:AppendToFile(file, line)
+    let contents = readfile(a:file)
+    let newContents = add(contents, a:line)
+    call writefile(contents, a:file)
+endfunction
+
 " TodoDone: Completes a task according to todo.txt syntax
 "
 " Adds "x 2009-10-13 17:18 " to the start of a task to show completion
@@ -123,13 +154,10 @@ endfunction
 command! -nargs=0 TodoNotDone :call <SID>TodoNotDone()
 
 function! s:ToggleTodoDone()
-    let line = getline(".")
-    let pattern = '^\s*x'
-    let position = match(line, pattern)
-    if position < 0
-        TodoDone()
-    else
+    if <SID>IsComplete(getline("."))
         call <SID>TodoNotDone()
+    else
+        call <SID>TodoDone()
     endif
 endfunction
 command! -nargs=0 ToggleTodoDone :call <SID>ToggleTodoDone()
@@ -137,6 +165,10 @@ command! -nargs=0 ToggleTodoDone :call <SID>ToggleTodoDone()
 " Add a tag
 map  <leader>t   $:CopyTag<CR>
 vmap <leader>t   $:CopyTag<CR>
+
+" Toggle task completion
+map  <leader>a   :ArchiveTask<CR>
+vmap <leader>a   :ArchiveTask<CR>
 
 " Toggle task completion
 map  <leader>d   :ToggleTodoDone<CR>
