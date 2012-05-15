@@ -175,10 +175,10 @@ if version >= 508 || !exists("did_conf_syntax_inits")
   syn region todotxtPriB matchgroup=todotxtPriB start=/^\s*\((B)\)\|[*!]\+B/ end=/ / contains=ALL
   syn region todotxtPriC matchgroup=todotxtPriC start=/^\s*\((C)\)\|[*!]\+C/ end=/ / contains=ALL
   syn region todotxtPriD matchgroup=todotxtPriD start=/^\s*\((D)\)\|[*!]\+D/ end=/ / contains=ALL
-  hi todotxtPriA ctermfg=DarkYellow guifg=DarkYellow
-  hi todotxtPriB ctermfg=Green guifg=Green
-  hi todotxtPriC ctermfg=Blue guifg=Blue
-  hi todotxtPriD ctermfg=grey guifg=grey
+  hi todotxtPriA ctermfg=Green guifg=#dc322f
+  hi todotxtPriB ctermfg=DarkYellow guifg=#2aa198
+  hi todotxtPriC ctermfg=grey guifg=#268bd2
+  hi todotxtPriD ctermfg=Blue guifg=#839496
 
   delcommand HiLink
 endif
